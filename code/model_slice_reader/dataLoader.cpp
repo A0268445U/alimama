@@ -18,7 +18,7 @@ void hdfsLoader::polling(){
       update(model);
       curModel = model;
     }
-    sleep(10); // 100000 ms
+    sleep(10); // 10 sec
   }
 }
 

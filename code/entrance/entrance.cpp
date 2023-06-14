@@ -3,9 +3,9 @@
 std::vector<ModelSliceReader> vr;
 
 std::string read_vr(uint64_t slice_partition, uint64_t start, uint64_t len) {
-  char buf[1024*1024-1] = {0};
+  char buf[1000] = {0};
   bool jud = vr[slice_partition].Read(start,len,buf);
-  //if(!jud) std::cout<<"Bad!!!"<<std::endl;
+  if(!jud) std::cout<<"Bad!!!"<<std::endl;
   std::string s(buf,len);
   return s;
 }
@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 	t3.detach();
 	t4.detach();
     while(true){
-		sleep(10000);
+      sleep(1000000);
     }
 
 	return 0;

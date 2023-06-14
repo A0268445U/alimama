@@ -33,12 +33,11 @@ Status ServiceImpl::Get(ServerContext* context, const Request* request,
     uint64_t start = s.data_start();
     uint64_t len = s.data_len();
 
-    std::cout<<"!!!"<<partition<<" "<<start<<" "<<len<<std::endl;
+//    std::cout<<"!!!"<<partition<<" "<<start<<" "<<len<<std::endl;
     int id = partition % 6 + 1;
     reqs[id] = reqs[id] + " *$* " + std::to_string(i + 1) + " " + std::to_string(partition) + " " +
     std::to_string(start) + " " + std::to_string(len);
   }
-  std::cout<<"*************"<<std::endl;
 
   // " *$* 1 1 1 1 *$* 2 2 2 2"
 //  for (int id = 1; id < 7; id++) {
@@ -62,8 +61,8 @@ Status ServiceImpl::Get(ServerContext* context, const Request* request,
         uint64_t start = s.data_start();
         uint64_t len = s.data_len();
         std::string tmp = read_vr(partition, start, len);
-        std::cout<<"!!!"<<i<<" "<<id<<std::endl;
-        std::cout<<"!!!"<<tmp<<std::endl;
+//        std::cout<<"!!!"<<i<<" "<<id<<std::endl;
+//        std::cout<<"!!!"<<tmp<<std::endl;
         reply->add_slice_data(tmp);
 //    }
   }

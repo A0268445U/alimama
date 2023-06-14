@@ -38,7 +38,7 @@ void registerService(etcd::Client& etcdClient, std::string local_ip = "", std::s
     std::string key = std::string("/services/modelservice/") + external_address;
     std::string value("");
     etcdClient.set(key, value);
-    //std::cout << "register " << key << std::endl;
+    std::cout << "register " << key << std::endl;
 }
 
 // check whether all six nodes have finished loading data
@@ -53,7 +53,7 @@ bool checkAllNodesFinish(etcd::Client& etcdClient) {
         }
         else {
             allFinished = false;
-            //std::cout << "query failed: " << allNodes[i] << std::endl;
+            std::cout << "query failed: " << allNodes[i] << std::endl;
             break;
         }
     }
@@ -68,15 +68,15 @@ void etcdPart(std::string key, std::string local_ip = "", std::string port = "50
     std::string external_address = getAddress(local_ip, port);
     etcd::Client etcdClient(str_url);
     etcdClient.set(key, external_address);
-    std::cout << "put " << key << std::endl;
+    //std::cout << "put " << key << std::endl;
 
     // Query every 100ms to see if etcd has the specified key
-    //bool flag = checkAllNodesFinish(etcdClient);
-    //while (!flag)
-    //{
-    //    flag = checkAllNodesFinish(etcdClient);
-    //    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    //}
+    bool flag = checkAllNodesFinish(etcdClient);
+    while (!flag)
+    {
+        flag = checkAllNodesFinish(etcdClient);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 
     registerService(etcdClient);
 }
@@ -88,13 +88,13 @@ std::string queryNodeAddress(int nodeId) {
 }
 
 void loadETCDAddress() {
-    //etcd::Client etcdClient(str_url);
-    //bool flag = false;
-    //while (!flag)
-    //{
-    //    flag = checkAllNodesFinish(etcdClient);
-    //    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    //}
+    etcd::Client etcdClient(str_url);
+    bool flag = false;
+    while (!flag)
+    {
+        flag = checkAllNodesFinish(etcdClient);
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
 }
 
 //int main(int argc, char** argv) {
